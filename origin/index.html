@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src='https://cdn.jsdelivr.net/npm/echarts@5.1.2/dist/echarts.js'></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<style>
+			#chart{
+				width: 1200px;
+				height: 600px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="chart"></div>
+		<script>
+            const service = axios.create({
+                baseURL:'http://172.16.5.164:9131',
+                timeout:5000
+            })
+            //添加响应拦截器
+            service.interceptors.response.use(
+                res=>{
+                    if(res.status===200&&res.data){
+                        console.log(res.data)
+                        return res.data
+                    }else{
+                        return Promise.reject(new Error('请求失败'))
+                    }
+                },
+                err=>{
+                    return Promise.reject(err)
+                }
+            )
+
+            service.get('/pppdata?count=30')
+                .then(function(response){
+                    console.log(response)
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
+
+			const chartDom = document.getElementById('chart');
+			const chart = echarts.init(chartDom,'chalk',{render:'svg'});
+            option = {
+                        title:{
+                            text:'潮位数据及其滤波可视化',
+                            textAlign:'auto',
+                            left:'40%',
+                        },
+                        xAxis: {
+                            type: 'category',
+                            name:'时间',
+                            nameGap:20,
+                            axisLine:{
+                                show:true,
+                                symbol:['none','arrow'],
+                                symbolOffset : [0,12],
+                                lineStyle:{
+                                    color:'#333',
+                                }
+                            },
+                            axisLabel:{
+                                rotate:-60
+                            },
+                            splitLine:{
+                                show:true
+                            },
+                            axisPointer:{
+                                show:true
+                            },
+                            axisTick:{
+                                alignWithLabel : true
+                            },
+                            // show: false
+                            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                                'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                                'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                                'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                                'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                                'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                                'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun',
+                                ]
+                        },
+                        yAxis: {
+                            type: 'value',
+                            name:'潮位',
+                            min:600,
+                            max:1500,
+                            axisLine:{
+                                show:true,
+                                symbol:['none','arrow'],
+                                symbolOffset : [0,12]
+                            },
+                            splitLine:{
+                                show:true
+                            },
+                        },
+                        toolbox:{
+                            show:true,
+                            right:'10%',
+                            feature:{
+                                dataZoom:{
+                                    show:true
+                                },
+                                saveAsImage:{
+                                    show:true,
+                                    type:'png',
+                                },
+                            }
+                        },
+                        tooltip:{
+                            show:true
+                        },
+                        dataZoom:[{
+                            type:'slider',
+                            show:true,
+                            xAxisIndex:[0],
+                            start:1,
+                            end:35
+                        }],
+                        legend: {
+                            // Try 'horizontal'
+                            orient: 'vertical',
+                            right: 10,
+                            top: 'center',
+                            icon: 'circle',
+                            data: ['原始数据','S-G滤波','小波滤波']
+                        },
+                        series: [
+                            {
+                                name:'原始数据',
+                                type: 'line',
+                                smooth: true,
+                                data: [
+                                    820, 932, 901, 934, 1290, 1330, 1320,
+                                    820, 932, 901, 934, 1290, 1330, 1320,
+                                    820, 932, 901, 934, 1290, 1330, 1320,
+                                    820, 932, 901, 934, 1290, 1330, 1320,
+                                    820, 932, 901, 934, 1290, 1330, 1320,
+                                    820, 932, 901, 934, 1290, 1330, 1320,
+                                    820, 932, 901, 934, 1290, 1330, 1320,
+                                ]
+                            },
+                            {
+                                name:'S-G滤波',
+                                type: 'line',
+                                smooth: true,
+                                data: [
+                                    932, 820, 1320, 934, 932, 1330, 810,
+                                    932, 820, 1320, 934, 932, 1330, 810,
+                                    932, 820, 1320, 934, 932, 1330, 810,
+                                    932, 820, 1320, 934, 932, 1330, 810,
+                                    932, 820, 1320, 934, 932, 1330, 810,
+                                    932, 820, 1320, 934, 932, 1330, 810,
+                                    932, 820, 1320, 934, 932, 1330, 810,
+                                    ]
+                            },
+                            {
+                                name:'小波滤波',
+                                type: 'line',
+                                smooth: true,
+                                data: [
+                                    832, 720, 1120, 734, 1032, 930, 890,
+                                    832, 720, 1120, 734, 1032, 930, 890,
+                                    832, 720, 1120, 734, 1032, 930, 890,
+                                    832, 720, 1120, 734, 1032, 930, 890,
+                                    832, 720, 1120, 734, 1032, 930, 890,
+                                    832, 720, 1120, 734, 1032, 930, 890,
+                                    832, 720, 1120, 734, 1032, 930, 890,
+                                    ]
+                            },
+                        ]
+                    };
+			chart.setOption(option);
+		</script>
+	</body>
+</html>
