@@ -21,7 +21,6 @@
       let className = `echarts${uuidv4()}`
       const initChart = () => {
         if (!chart) {
-          dom = document.getElementsByClassName(className)[0]
           chart = Echarts.init(dom, ctx.theme)
         }
         if (ctx.options) {
@@ -29,6 +28,7 @@
         }
       }
       onMounted(() => {
+        dom = document.getElementsByClassName(className)[0]
         initChart()
       })
       //监听options状态变化

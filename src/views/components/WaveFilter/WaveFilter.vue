@@ -8,13 +8,16 @@
 
 <script>
     import {ref, onMounted, watch} from 'vue'
-    import VueEcharts from '../VueEcharts/VueEcharts'
-    import { getFilterData } from '../../api/index.js'
+    import VueEcharts from '@/components/VueEcharts/VueEcharts'
+    import { getFilterData } from '@/api/index.js'
 
     export default {
         name:'WaveFilter',
         components: {
             VueEcharts
+        },
+        props:{
+            waveData:Object
         },
         setup(props){
             let screenWidth = ref(document.body.clientWidth)
@@ -170,6 +173,5 @@
     .wave-filter-chart {
       width: 100%;
       height: 100%;
-      background-color: #fff;
     }
 </style>

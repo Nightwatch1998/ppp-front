@@ -1,4 +1,4 @@
-import {ref, onMounted} from 'vue'
+import {ref, onMounted, watch} from 'vue'
 
 export default function useScreen(id){
     const width = ref(0)
@@ -11,7 +11,6 @@ export default function useScreen(id){
 
         // console.log(dom,width.value,height.value)
     })
-
     return {
         width,
         height

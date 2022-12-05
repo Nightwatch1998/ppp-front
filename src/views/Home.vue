@@ -1,13 +1,11 @@
 <template>
   <div class="home">
     <div class="top-header">
-        <div class="header-text">PPP潮位项目可视化</div>
+        <div class="header-text">GNSS PPP离岸潮位数据实时动态处理及可视化平台</div>
     </div>
     <div class="center">
         <div class="chart-wrapper">
-            <wave-filter
-                :data ="waveData"
-            />
+            <wave-filter></wave-filter>
         </div>
         <div class="location-map">
             <position-map></position-map>
@@ -26,10 +24,10 @@
 
 <script>
   import { ref, onMounted} from 'vue'
-  import WaveFilter from '../components/WaveFilter/WaveFilter'
-  import PositionMap from '../components/PositionMap/PositinMap'
-  import WeatherForecast from '../components/WeatherForecast/WeatherForecast'
-  import TideTable from '../components/TideTable/TideTable'
+  import WaveFilter from './components/WaveFilter/WaveFilter'
+  import PositionMap from './components/PositionMap/PositinMap'
+  import WeatherForecast from './components/WeatherForecast/WeatherForecast'
+  import TideTable from './components/TideTable/TideTable'
   import { getData } from '../api/index.js'
 
   export default {
@@ -191,6 +189,7 @@
             .chart-wrapper{
                 width: 50%;
                 height: 100%;
+                background-color: #fff;
             }
 
             .location-map{
@@ -201,7 +200,8 @@
             }
         }
         .bottom{
-            flex:1;
+            // height: 300px;
+            flex: 1;
             width: 100%;
             margin-top: 10px;
             display: flex;
@@ -215,6 +215,8 @@
 
             .station-weather{
                 flex:1;
+                width: 50%;
+                height: 100%;
                 margin-left: 10px;
                 background-color: #fff;
             }

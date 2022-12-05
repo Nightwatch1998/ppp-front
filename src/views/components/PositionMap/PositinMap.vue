@@ -6,7 +6,7 @@
     import {ref, watch, onMounted, getCurrentInstance} from 'vue'
     import { init } from 'echarts'
     //静态图片通过模块引入的方式
-    import markerURL  from '../../assets/marker.png'
+    import markerURL  from '@/assets/marker.png'
 
     export default {
         name:'PositionMap',
@@ -15,7 +15,8 @@
         setup(ctx){
             let options = {}
             //站点位置
-            const pointLocation = [117.874292,38.961805]
+            // const pointLocation = [117.874292,38.961805]
+            const pointLocation = [117.90396803,38.89653889]
             //marker尺寸
             const markerSize = [20,30]
             //更新地图
